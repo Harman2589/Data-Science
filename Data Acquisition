@@ -1,0 +1,36 @@
+import pandas as pd
+import numpy as np
+# Data acquistion
+df = pd.read_csv("Trips_by_Distance.csv")
+
+# Check dataset size
+len(df) # number of rows
+df.shape # (rows, columns)
+
+# Preview data
+df.head() # show first 5 rows
+
+#Column names
+df.columns
+
+# Dataset info
+df.info
+
+# Summary statistics
+df.describe() # Only numeric columns
+
+# Value counts
+df['Level'].value_counts() # Shows frequency of values
+
+# Select specific
+df[['Date', 'Level']]
+
+# Filter Data
+df[df['Month'] > 6]
+
+# Sort Data
+df.sort_values('Date')
+
+
+
+
