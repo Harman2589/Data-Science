@@ -1,1 +1,22 @@
+# Import pandas for data manipulation
+import pandas as pd
+import numpy as np
 
+# Import numpy (useful for numerical operations)
+import numpy as np
+
+
+# Load the dataset from CSV file into a DataFrame
+df = pd.read_csv("trips_by_distance.csv")
+
+
+# Create a new column 'trip_category' by classifying 'Number of Trips'
+# pd.cut() is used to divide continuous data into categories (bins)
+# NOTE: Current bins are too small for your data (values are very large)
+df['trip_category'] = pd.cut(df['Number of Trips'],  
+                            bins=[0, 1000, 5000, 10000],  # Defines category ranges
+                            labels=['Low', 'Medium', 'High'])  # Labels for each range
+
+
+# Display first 5 rows showing original values and new categories
+df[['Number of Trips', 'trip_category']].head()
