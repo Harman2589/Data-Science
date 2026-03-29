@@ -1,35 +1,3 @@
-import pandas as pd
-import numpy as np
-
-#This shows the first rows
-df=pd.read_csv('Trips_by_Distance.csv')
-df.head()
-
-#Check columns (VERY important)
-df.columns
-
-#Explore the Dataset
-df.info()
-df.describe()
-
-#Clean the Data(if needed)
-df=df.dropna()
-df=df.drop_duplicates()
-
-#Example of Analysis
-
-#Total Trips by Distance
-df.sum(numeric_only=True)
-
-#Group by Date
-grouped = df.groupby('Date')
-grouped.describe()
 
 
-#Compare short vs long trips
-df['Short Trips'] = df['Number of Trips <1'] + df['Number of Trips 1-3']
-df['Long Trips'] = df['Number of Trips 25-50'] + df['Number of Trips 50-100']
-
-result = df.groupby('Date')[['Short Trips', 'Long Trips']].sum()
-print(result.head())
 
