@@ -1,0 +1,19 @@
+import pandas as pd
+import numpy as np
+
+df = pd.read_csv("trips_by_distance.csv")
+
+#Handling Missing Values
+df.isnull().sum()
+
+#Avoids data loss while maintaining the overall distribution of the dataset.
+df.fillna(df.mean(numeric_only=True), inplace=True)
+
+#Standardising Columns Names
+df.columns = df.columns.str.lower().str.strip()
+
+#Removing Duplicate Records
+df = df.drop_duplicates()
+
+#Converting Data Types
+df['date'] = pd.to_datetime(df['date'], errors='coerce')
