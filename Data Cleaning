@@ -1,1 +1,16 @@
+import pandas as pd
+import numpy as np
 
+df = pd.read_csv("trips_by_distance.csv")
+df.columns = df.columns.str.lower().str.strip()
+df = df.fillna(df.select_dtypes(include='number').mean())
+df = df.drop_duplicates()
+
+df.head()
+
+df.info()
+
+df_original = pd.read_csv("trips_by_distance.csv")
+
+print("Before cleaning:", df_original.isnull().sum())
+print("After cleaning:", df.isnull().sum())
