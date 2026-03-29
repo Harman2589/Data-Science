@@ -21,6 +21,7 @@ df['date'] = pd.to_datetime(df['date'], errors='coerce')
 #Understanding Variables
 df.columns = df.columns.str.lower().str.strip()
 
+#Printing Columns
 print(df.columns)  # verify
 
 X = df.drop(columns=['number of trips'])
