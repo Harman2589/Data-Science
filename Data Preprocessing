@@ -17,3 +17,11 @@ df = df.drop_duplicates()
 
 #Converting Data Types
 df['date'] = pd.to_datetime(df['date'], errors='coerce')
+
+#Understanding Variables
+df.columns = df.columns.str.lower().str.strip()
+
+print(df.columns)  # verify
+
+X = df.drop(columns=['number of trips'])
+y = df['number of trips']
