@@ -1,12 +1,13 @@
-#Using pandas
+
+# Import pandas library for data manipulation and analysis
 import pandas as pd
 import numpy as np
 
+# Load the dataset from the CSV file into a pandas DataFrame
 df = pd.read_csv("trips_by_distance.csv")
+
+# Display the first 5 rows of the dataset to preview its structure and contents
 df.head()
-
-
-
 
 
 
