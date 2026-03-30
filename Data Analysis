@@ -1,0 +1,69 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Load dataset
+file_path = "trips_by_distance (3).csv"
+df = pd.read_csv(file_path)
+
+# Convert Date column to datetime
+df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
+
+# Keep only National-level records
+df = df[df["Level"] == "National"].sort_values("Date")
+
+# Distance-trip columns
+distance_cols = [
+    "Number of Trips <1",
+    "Number of Trips 1-3",
+    "Number of Trips 3-5",
+    "Number of Trips 5-10",
+    "Number of Trips 10-25",
+    "Number of Trips 25-50",
+    "Number of Trips 50-100",
+    "Number of Trips 100-250",
+    "Number of Trips 250-500",
+    "Number of Trips >=500"
+]
+
+# -------------------------------
+# Plot 1: Bar chart (total travellers by distance-trip)
+# -------------------------------
+totals = df[distance_cols].sum().sort_values(ascending=False)
+
+plt.figure(figsize=(12, 6))
+totals.plot(kind="bar")
+plt.title("Total Number of Travellers by Distance-Trip Category")
+plt.xlabel("Distance-Trip Category")
+plt.ylabel("Number of Travellers")
+plt.xticks(rotation=45, ha="right")
+plt.tight_layout()
+plt.show()
+
+# -------------------------------
+# Plot 2: Line plot (travellers over time)
+# -------------------------------
+plt.figure(figsize=(14, 7))
+for col in distance_cols:
+    plt.plot(df["Date"], df[col], label=col)
+
+plt.title("Travellers by Distance-Trip Category Over Time")
+plt.xlabel("Date")
+plt.ylabel("Number of Travellers")
+plt.legend(bbox_to_anchor=(1.05, 1), loc="upper left")
+plt.tight_layout()
+plt.show()
+
+# -------------------------------
+# Plot 3: Percentage stacked area plot
+# -------------------------------
+df_percent = df[distance_cols].div(df[distance_cols].sum(axis=1), axis=0)
+
+plt.figure(figsize=(14, 7))
+plt.stackplot(df["Date"], [df_percent[col] for col in distance_cols], labels=distance_cols)
+plt.title("Percentage Distribution of Travellers by Distance-Trip Over Time")
+plt.xlabel("Date")
+plt.ylabel("Proportion of Travellers")
+plt.legend(loc="upper left")
+plt.tight_layout()
+plt.show()
