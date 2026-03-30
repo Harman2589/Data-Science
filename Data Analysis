@@ -1,0 +1,54 @@
+import pandas as pd
+import numpy as np
+
+# Load the dataset
+df = pd.read_csv("Trips_Full Data (1).csv")
+
+# 1) Average number of people staying at home per week
+avg_staying_home = df["Population Staying at Home"].mean()
+
+# 2) Average number of people not staying at home per week
+avg_not_staying_home = df["People Not Staying at Home"].mean()
+
+# 3) Estimate how far people travel when they do not stay home
+# Use trip-distance buckets with midpoint estimates
+distance_midpoints = {
+    "Trips <1 Mile": 0.5,
+    "Trips 1-3 Miles": 2,
+    "Trips 3-5 Miles": 4,
+    "Trips 5-10 Miles": 7.5,
+    "Trips 10-25 Miles": 17.5,
+    "Trips 25-50 Miles": 37.5,
+    "Trips 50-100 Miles": 75,
+    "Trips 100-250 Miles": 175,
+    "Trips 250-500 Miles": 375,
+    "Trips 500+ Miles": 500   # conservative estimate for open-ended bin
+}
+
+trip_cols = list(distance_midpoints.keys())
+
+# Weighted average trip distance for each week
+df["Estimated Avg Distance per Trip"] = (
+    sum(df[col] * distance_midpoints[col] for col in trip_cols)
+    / df[trip_cols].sum(axis=1)
+)
+
+# Overall average distance
+avg_distance = df["Estimated Avg Distance per Trip"].mean()
+
+print(f"Average people staying at home per week: {avg_staying_home:,.0f}")
+print(f"Average people not staying at home per week: {avg_not_staying_home:,.0f}")
+print(f"Estimated average distance traveled per trip: {avg_distance:.2f} miles")
+
+# Optional summary paragraph
+summary = (
+    f"On average, about {avg_staying_home:,.0f} people stayed at home each week, "
+    f"while about {avg_not_staying_home:,.0f} people did not. "
+    f"Using the trip-distance categories, the estimated average travel distance for those "
+    f"who were mobile is about {avg_distance:.2f} miles per trip. "
+    f"This suggests that most people were not staying home all week, and their travel "
+    f"was dominated by relatively short-to-medium distance trips rather than very long-distance travel."
+)
+
+print("\nSummary Evaluation:")
+print(summary)
