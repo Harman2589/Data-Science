@@ -1,0 +1,22 @@
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+
+# Approximate data points from the chart
+distance = np.array([0, 5, 7, 15, 35, 75, 180, 380, 600])
+trips = np.array([610000, 615000, 305000, 385000, 120000, 40000, 15000, 3000, 1000])
+
+# Fit linear regression line
+m, b = np.polyfit(distance, trips, 1)
+regression_line = m * distance + b
+
+# Plot
+plt.figure(figsize=(8, 6))
+plt.scatter(distance, trips, label="Data points")
+plt.plot(distance, regression_line, label="Linear regression")
+
+plt.title("Trips vs Distance with Linear Regression")
+plt.xlabel("Trip Distance (approx midpoint)")
+plt.ylabel("Average Number of Trips")
+
+plt.show()
