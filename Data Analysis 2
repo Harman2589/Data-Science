@@ -1,0 +1,51 @@
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+
+# Example: df should have these columns
+# - 'date'          : datetime-like values
+# - 'trips_10_25'   : counts for 10–25 trips
+# - 'trips_50_100'  : counts for 50–100 trips
+
+# If your date column is not already datetime:
+df["date"] = pd.to_datetime(df["date"])
+
+# Threshold
+threshold = 10_000_000
+
+# Keep only dates where national trips exceeded 10,000,000
+plot_df = df[
+    (df["trips_10_25"] > threshold) |
+    (df["trips_50_100"] > threshold)
+].copy()
+
+# Plot
+plt.figure(figsize=(12, 6))
+
+plt.scatter(
+    plot_df["date"],
+    plot_df["trips_10_25"],
+    s=14,
+    label="10-25 trips"
+)
+
+plt.scatter(
+    plot_df["date"],
+    plot_df["trips_50_100"],
+    s=14,
+    label="50-100 trips"
+)
+
+# Horizontal threshold line
+plt.axhline(
+    y=threshold,
+    linestyle="--",
+    linewidth=1
+)
+
+plt.title("Dates where national trips exceeded 10,000,000")
+plt.xlabel("Date")
+plt.ylabel("Number of trips")
+plt.legend()
+plt.tight_layout()
+plt.show()
